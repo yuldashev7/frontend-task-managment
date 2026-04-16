@@ -3,6 +3,7 @@ import DashboardIcon from '@/icons/sidebar/dashboard';
 import FeedbackIcon from '@/icons/sidebar/feedback';
 import ProfileIcon from '@/icons/sidebar/profile';
 import ProjectsIcon from '@/icons/sidebar/projects';
+import SettingsIcon from '@/icons/sidebar/settings';
 import TeamIcon from '@/icons/sidebar/team';
 import { KanbanIcon } from 'lucide-react';
 
@@ -45,12 +46,12 @@ export const AdminNavItems: NavConfigProps[] = [
     href: '/admin/kanban',
     icon: KanbanIcon,
   },
-  //   {
-  //     key: 'settings',
-  //     label: 'Settings',
-  //     href: '/admin/settings',
-  //     icon: KanbanIcon,
-  //   },
+  {
+    key: 'settings',
+    label: 'Settings',
+    href: '/admin/settings',
+    icon: SettingsIcon,
+  },
 ];
 
 export const UserNavItems: NavConfigProps[] = [
