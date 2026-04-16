@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -49,13 +49,13 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: #f7fafc;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: #4fd1c5;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -81,6 +81,14 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --text-color: #a0aec0;
+  --text-title: #1a202c;
+  --border-top-color: linear-gradient(
+    90deg,
+    rgba(224, 225, 226, 0) 0%,
+    rgb(224, 225, 226) 49.52%,
+    rgba(224, 225, 226, 0) 100%
+  );
 }
 
 .dark {
@@ -117,14 +125,58 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+body {
+  font-family: 'poppins', sans-serif;
+  background-color: var(--color-background);
+}
+
+.container {
+  max-width: 1520px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-left: auto;
+}
+
+@layer utilities {
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    overflow-x: hidden;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  @media (min-width: 320px) {
+    .container {
+      max-width: 100%;
+      padding-inline: 1rem;
+    }
   }
-  html {
-    @apply font-sans;
+
+  @media (min-width: 768px) {
+    .container {
+      max-width: 100%;
+      padding-inline: 1.6rem;
+    }
   }
+
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 100%;
+      padding-inline: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1240px;
+    }
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+.b {
+  border: 2px solid red;
 }
