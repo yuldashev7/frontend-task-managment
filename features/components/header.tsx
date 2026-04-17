@@ -1,10 +1,10 @@
 'use client';
 
-import { CustomInput } from './custom-input';
+import { CustomInput } from './ui/custom-input';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { BellIcon, CircleQuestionMark, Search } from 'lucide-react';
-import { CustomSelect } from './custom-select';
+import { CustomSelect } from './ui/custom-select';
 
 const OPTION_LANG = [
   {

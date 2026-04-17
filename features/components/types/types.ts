@@ -16,3 +16,8 @@ export interface CustomSelectT {
   value?: string;
   renderOption?: (option: OptionT) => React.ReactNode;
 }
+
+export interface AuthPageProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}

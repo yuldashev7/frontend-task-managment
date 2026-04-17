@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CustomSelectT } from './types/types';
+import { CustomSelectT } from '../types/types';
 
 export function CustomSelect({
   options,
@@ -27,7 +27,12 @@ export function CustomSelect({
       <SelectTrigger className={`cursor-pointer font-normal ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent position="popper" align="start" side="bottom" className='min-w-24!'>
+      <SelectContent
+        position="popper"
+        align="start"
+        side="bottom"
+        className="min-w-24!"
+      >
         {options.length > 0 ? (
           options.map((option) => (
             <SelectItem

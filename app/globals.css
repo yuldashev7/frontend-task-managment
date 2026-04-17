@@ -90,6 +90,7 @@
     rgba(224, 225, 226, 0) 100%
   );
   --text-primary-hover: #2cb1a3;
+  --text-label-color: #2e3139;
 }
 
 .dark {

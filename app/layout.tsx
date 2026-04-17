@@ -3,6 +3,10 @@ import { Poppins } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { ViewTransitions } from 'next-view-transitions';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Providers from '@/providers/query-provider';
+import { Toaster } from 'sonner';
+import NextTopLoader from 'nextjs-toploader';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -26,7 +30,11 @@ export default function RootLayout({
       className={cn('h-full', 'antialiased', poppins.variable, 'font-sans')}
     >
       <body className="min-h-full flex flex-col">
-        <ViewTransitions>{children}</ViewTransitions>
+        <ViewTransitions>
+          <NextTopLoader showSpinner={false} color="#4fd1c5" />
+          <Toaster position="top-center" />
+          <Providers>{children}</Providers>
+        </ViewTransitions>
       </body>
     </html>
   );
