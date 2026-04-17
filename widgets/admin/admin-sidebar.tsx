@@ -1,8 +1,8 @@
 'use client';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { AdminNavItems } from '../model/nav.config';
-import Link from 'next/link';
 import { Layers2 } from 'lucide-react';
+import { Link } from 'next-view-transitions';
 
 function isActive(pathname: string | null, href: String) {
   if (!pathname) return false;
@@ -11,17 +11,21 @@ function isActive(pathname: string | null, href: String) {
 
 const AdminSidebar = () => {
   const pathName = usePathname();
+  const router = useRouter();
   return (
     <aside
       style={{ scrollbarWidth: 'none' }}
-      className="w-full pb-5 bg-white/90 h-screen"
+      className="w-full pb-5 bg-white/90 h-screen px-2"
     >
       <nav className="h-full flex flex-col justify-between">
         <div
           style={{ scrollbarWidth: 'none' }}
           className="flex-1 overflow-y-auto px-1 mt-5.5"
         >
-          <span className="text-(--text-title) pl-4 text-center font-semibold cursor-pointer flex items-center gap-3">
+          <span
+            onClick={() => router.push('/admin/dashboard')}
+            className="text-(--text-title) pl-4 text-center font-semibold cursor-pointer flex items-center gap-3"
+          >
             <Layers2 />
             UI DASHBOARD
           </span>
@@ -40,7 +44,7 @@ const AdminSidebar = () => {
                     ].join(' ')}
                   >
                     <span
-                      className={`p-1.5 rounded-[11px] transition duration-300 flex items-center justify-center ${active ? 'bg-primary' : 'bg-white'}`}
+                      className={`p-1.5 rounded-[11px] transition duration-300 flex items-center justify-center ${active ? 'bg-primary' : 'bg-background'}`}
                     >
                       <item.icon
                         className={`${active ? 'stroke-white' : 'stroke-primary'} duration-300 h-5 w-5`}
