@@ -1,5 +1,5 @@
 'use client';
-import { LoginFormProps } from '@/app/(auth)/login/page';
+import { LoginFormProps } from '@/app/[locale]/(auth)/login/page';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -16,10 +16,11 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { useForgotPassword } from '@/features/auth/api/use-forgot-password';
 import { useVerifyOtp } from '@/features/auth/api/use-verify-otp';
-import { OtpSchema } from '@/features/auth/schema/otp-schema';
+import { useOtpSchema } from '@/features/auth/schema/otp-schema';
 import { otpCodeT } from '@/features/auth/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -28,16 +29,17 @@ import z from 'zod';
 const OtpForm = ({ setActiveTab }: LoginFormProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(60);
   const [canResend, setCanResend] = useState<boolean>(false);
-
   const [displayOtp, setDisplayOtp] = useState<string | null>(null);
+  const schema = useOtpSchema()
 
   const { mutate: forgotMutate, isPending } = useForgotPassword();
   const { mutate: verifyMutate, isPending: verifyPending } = useVerifyOtp();
+  const t = useTranslations('login_locales');
 
-  type OtpFormValue = z.infer<typeof OtpSchema>;
+  type OtpFormValue = z.infer<typeof schema>;
 
   const form = useForm<OtpFormValue>({
-    resolver: zodResolver(OtpSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       otp_code: '',
     },
@@ -114,7 +116,7 @@ const OtpForm = ({ setActiveTab }: LoginFormProps) => {
       {displayOtp && (
         <div className="mb-6 p-2 md:p-3 bg-primary/5 border border-primary/20 rounded-xl w-full text-center">
           <p className="text-[14px] text-(--text-color) font-medium">
-            Otp kod:
+            {t('otp_code')}
             <span className="text-primary font-bold ml-2 tracking-[4px] text-2x; md:text-lg">
               {displayOtp}
             </span>
@@ -162,14 +164,14 @@ const OtpForm = ({ setActiveTab }: LoginFormProps) => {
             disabled={isPending}
             className="w-full mt-8 h-12 rounded-[100px] hover:bg-(--text-primary-hover) transition duration-200"
           >
-            {verifyPending ? <Spinner /> : 'Verify'}
+            {verifyPending ? <Spinner /> : `${t('verify')}`}
           </Button>
         </form>
       </Form>
 
       <div className="flex items-center gap-1 mt-6 justify-center">
         <p className="text-[14px] text-(--text-color) font-medium">
-          Didn’t receive the code?
+          {t('didnt_recived_code')}
         </p>
         {canResend ? (
           <button
@@ -177,7 +179,7 @@ const OtpForm = ({ setActiveTab }: LoginFormProps) => {
             disabled={isPending}
             className="text-primary font-medium text-[14px] hover:underline transition duration-100 hover:text-(--text-primary-hover)"
           >
-            Resend code
+            {t('resend_code')}
           </button>
         ) : (
           <span className="text-primary font-medium text-[14px] w-12">

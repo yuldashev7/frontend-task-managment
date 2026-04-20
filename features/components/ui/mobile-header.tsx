@@ -10,10 +10,11 @@ import {
 } from '@/components/ui/drawer';
 
 import { drawerT } from '../types/types';
-import { Divide, Layers2, XIcon } from 'lucide-react';
+import { XIcon } from 'lucide-react';
 import { AdminNavItems } from '@/widgets/model/nav.config';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePathname } from '@/app/config/navigation';
+import { useTranslations } from 'next-intl';
 
 function isActive(pathname: string | null, href: string) {
   if (!pathname) return false;
@@ -22,6 +23,7 @@ function isActive(pathname: string | null, href: string) {
 
 const MobileHeader = ({ open, onClose }: drawerT) => {
   const pathName = usePathname();
+  const t = useTranslations('sidebar_locales');
   return (
     <div>
       <Drawer open={open} onClose={onClose} direction="left">
@@ -56,7 +58,7 @@ const MobileHeader = ({ open, onClose }: drawerT) => {
                       <span
                         className={`font-semibold text-sm transition duration-300 ${active ? 'text-(--title-color)' : 'text-(--text-color)'}`}
                       >
-                        {item.label}
+                        {t(item.label)}
                       </span>
                     </Link>
                   </div>

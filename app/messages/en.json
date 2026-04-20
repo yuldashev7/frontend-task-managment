@@ -1,0 +1,68 @@
+{
+  "login_locales": {
+    "img_title": "Master your workflow in one organized place.",
+    "img_text": "Plan, track, and deliver your team's best work without the chaos.",
+    "welcome": "Welcome Back",
+    "sign_in": "Sign in to your account",
+    "success_sign": "You have successfully logged in",
+
+    "user_name_label": "Username",
+    "email_label": "Email",
+    "password_label": "Password",
+
+    "user_name_plc": "Enter your user name",
+    "password_plc": "Enter your password",
+    "email_plc": "Enter your email",
+
+    "forgot_password": "Forgot Password?",
+    "Sign_In": "Sign In",
+
+    "enter_your_reset": "Enter your email to reset your password",
+    "submit": "Submit",
+
+    "otp_verification": "OTP Verification",
+    "check_your_email_verification": "Check your email to see the verification code",
+    "otp_code": "Otp code",
+    "verify": "Verify",
+    "didnt_recived_code": "Didn’t receive the code?",
+    "resend_code": "Resend code",
+
+    "set_new_password": "Set New Password",
+    "enter_your_new_password": "Enter your new password to complete the reset process",
+    "new_password": "New Password",
+    "confirm_new_password": "Confirm New Password",
+    "save_new_password": "Save New Password",
+    "remember_old_password": "Remember old password?",
+    "succes_password_change": "Password changed successfully",
+    "error_password_res": "Error in password reset",
+    "error_send_otp_code": "An error occurred while sending the code",
+
+    "secces_password_change": "Your Password Successfully Changed",
+    "sign_in_new_password": "Sign in to your account with your new password",
+
+    "user_name_required": "Username is required",
+    "password_required": "Password is incorrect",
+
+    "email_required": "Email is required",
+    "email_invalid": "Invalid email format",
+
+    "invalit_otp": "Invalid OTP. Please enter a valid OTP.",
+    "otp_max_length": "You can insert only 6 numbers",
+
+    "password_min_6": "Password must be at least 6 characters",
+    "confirm_password_required": "Password confirmation is required",
+    "passwords_not_match": "Passwords do not match"
+  },
+  "sidebar_locales": {
+    "dashboard": "Dashboard",
+    "team": "Team",
+    "projects": "Projects",
+    "chat": "Chat",
+    "kanban": "Kanban",
+    "settings": "Settings",
+    "documents": "Documents",
+    "feedback": "Feedback",
+    "profile": "Profile",
+    "search_input_plc": "Type here..."
+  }
+}

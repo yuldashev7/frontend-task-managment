@@ -8,8 +8,10 @@ import ForgotForm from './ui/forms/forgot-form';
 import OtpForm from './ui/forms/otp-form';
 import NewPasswordForm from './ui/forms/new-password-form';
 import SuccessChangePassword from './ui/forms/success-change-password';
+import { useTranslations } from 'next-intl';
 
 const LoginWrapper = ({ activeTab, setActiveTab }: AuthPageProps) => {
+  const t = useTranslations('login_locales');
   return (
     <div className="w-full max-w-120! mx-auto min-h-fit">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -21,10 +23,10 @@ const LoginWrapper = ({ activeTab, setActiveTab }: AuthPageProps) => {
         <TabsContent value="login">
           <div className="mb-8 md:mb-12">
             <h1 className="text-(--text-title) font-semibold text-[24px] md:text-[32px] max-w-[320px] md:max-w-120 mx-auto text-start">
-              Welcome Back
+              {t('welcome')}
             </h1>
             <p className="text-primary text-[14px] mt-2 max-w-120 mx-auto text-start">
-              Sign in to your account
+              {t('sign_in')}
             </p>
           </div>
           <LoginFormWrapper setActiveTab={setActiveTab} />
@@ -43,10 +45,10 @@ const LoginWrapper = ({ activeTab, setActiveTab }: AuthPageProps) => {
           </p>
 
           <h2 className="text-(--text-title) font-semibold text-[24px] md:text-[32px] max-w-120 mx-auto text-start">
-            Forgot Password?
+            {t('forgot_password')}
           </h2>
           <p className="text-primary text-[14px] max-w-120 mx-auto text-start mt-2">
-            Enter your email to reset your password
+            {t('enter_your_reset')}
           </p>
           <ForgotForm setActiveTab={setActiveTab} />
         </TabsContent>
@@ -64,10 +66,10 @@ const LoginWrapper = ({ activeTab, setActiveTab }: AuthPageProps) => {
           </p>
 
           <h2 className="text-(--text-title) font-semibold text-[24px] md:text-[32px] max-w-120 mx-auto text-start">
-            OTP Verification
+            {t('otp_verification')}
           </h2>
           <p className="text-primary text-[13px] md:text-[14px] max-w-120 mx-auto text-start ">
-            Check your email to see the verification code
+            {t('check_your_email_verification')}
           </p>
           <OtpForm setActiveTab={setActiveTab} />
         </TabsContent>
@@ -85,10 +87,10 @@ const LoginWrapper = ({ activeTab, setActiveTab }: AuthPageProps) => {
           </p>
 
           <h2 className="text-(--text-title) font-semibold text-[24px] md:text-[32px] max-w-120 mx-auto text-start">
-            Set New Password
+            {t('set_new_password')}
           </h2>
           <p className="text-primary text-[13px] md:text-[14px] max-w-120 mx-auto text-start ">
-            Enter your new password to complete the reset process
+            {t('enter_your_new_password')}
           </p>
           <NewPasswordForm setActiveTab={setActiveTab} />
         </TabsContent>
@@ -99,10 +101,10 @@ const LoginWrapper = ({ activeTab, setActiveTab }: AuthPageProps) => {
           </p>
 
           <h2 className="text-(--text-title) font-semibold text-[24px] md:text-[32px] max-w-100 text-start leading-[120%] mb-1">
-            Your Password Successfully Changed
+            {t('secces_password_change')}
           </h2>
           <p className="text-primary text-[13px] md:text-[14px] max-w-120 mx-auto text-start ">
-            Sign in to your account with your new password
+            {t('sign_in_new_password')}
           </p>
           <SuccessChangePassword setActiveTab={setActiveTab} />
         </TabsContent>

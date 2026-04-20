@@ -1,4 +1,3 @@
-'use client';
 import {
   Form,
   FormControl,
@@ -10,21 +9,23 @@ import { Mail } from 'lucide-react';
 import { CustomInput } from '../custom/custom-input';
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import { LoginFormProps } from '@/app/(auth)/login/page';
 import { useForgotPassword } from '@/features/auth/api/use-forgot-password';
 import z from 'zod';
-import { ForgotSchema } from '@/features/auth/schema/forgot-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
 import { otpCodeT } from '@/features/auth/types/types';
-import { useState } from 'react';
+import { LoginFormProps } from '@/app/[locale]/(auth)/login/page';
+import { useTranslations } from 'next-intl';
+import { useForgotSchema } from '@/features/auth/schema/forgot-schema';
 
 const ForgotForm = ({ setActiveTab }: LoginFormProps) => {
   const { mutate: forgotMutate, isPending } = useForgotPassword();
-  type forgotSchemaProps = z.infer<typeof ForgotSchema>;
+  const t = useTranslations('login_locales');
+  const schema = useForgotSchema()
+  type forgotSchemaProps = z.infer<typeof schema>;
   const form = useForm<forgotSchemaProps>({
-    resolver: zodResolver(ForgotSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       email: '',
     },
@@ -55,7 +56,7 @@ const ForgotForm = ({ setActiveTab }: LoginFormProps) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 md:mt-12">
           <label>
             <p className="text-[13px] text-(--text-label-color) mb-1 text-left">
-              Email
+              {t('email_label')}
             </p>
             <FormField
               name="email"
@@ -68,7 +69,7 @@ const ForgotForm = ({ setActiveTab }: LoginFormProps) => {
                         className={`stroke-primary/50 w-4.5 h-4.5 absolute top-1/2 -translate-y-1/2 left-4 ${fieldState.error && 'stroke-destructive/50!'}`}
                       />
                       <CustomInput
-                        placeholder="Enter your email"
+                        placeholder={t('email_plc')}
                         className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border border-destructive focus:border-destructive! focus:border-2'}`}
                         {...field}
                       />
@@ -84,7 +85,7 @@ const ForgotForm = ({ setActiveTab }: LoginFormProps) => {
             type="submit"
             className="w-full h-12 rounded-[100px] hover:bg-(--text-primary-hover) transition duration-200 mt-8"
           >
-            {isPending ? <Spinner /> : 'Submit'}
+            {isPending ? <Spinner /> : `${t('submit')}`}
           </Button>
         </form>
       </Form>

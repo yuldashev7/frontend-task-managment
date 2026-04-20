@@ -1,10 +1,11 @@
 'use client';
-import { usePathname, useRouter } from 'next/navigation';
 import { AdminNavItems } from '../model/nav.config';
 import { Layers2 } from 'lucide-react';
 import { Link } from 'next-view-transitions';
+import { useTranslations } from 'next-intl';
+import { usePathname, useRouter } from '@/app/config/navigation';
 
-function isActive(pathname: string | null, href: String) {
+function isActive(pathname: string | null, href: string) {
   if (!pathname) return false;
   return pathname === href || pathname.startsWith(href + '/');
 }
@@ -12,6 +13,7 @@ function isActive(pathname: string | null, href: String) {
 const AdminSidebar = () => {
   const pathName = usePathname();
   const router = useRouter();
+  const t = useTranslations('sidebar_locales');
   return (
     <aside
       style={{ scrollbarWidth: 'none' }}
@@ -54,7 +56,7 @@ const AdminSidebar = () => {
                       <span
                         className={`font-semibold text-sm transition duration-300 ${active ? 'text-(--title-color)' : 'text-(--text-color)'}`}
                       >
-                        {item.label}
+                        {t(item.label)}
                       </span>
                     </Link>
                   )}

@@ -1,14 +1,15 @@
 'use client';
 
 import { CustomInput } from './ui/custom/custom-input';
-import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { BellIcon, CircleQuestionMark, Menu, Search } from 'lucide-react';
 import { CustomSelect } from './ui/custom/custom-select';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import MobileHeader from './ui/mobile-header';
+import { usePathname, useRouter } from '@/app/config/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 
-const OPTION_LANG = [
+export const OPTION_LANG = [
   {
     id: 1,
     label: 'UZ',
@@ -27,18 +28,30 @@ const OPTION_LANG = [
 ];
 
 const Header = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
+  const t = useTranslations('sidebar_locales');
 
   const getTitle = (path: string | null) => {
-    if (!path || path === '/admin/dashboard') return 'Dashboard';
-    if (path.startsWith('/admin/team')) return 'Team';
-    if (path.startsWith('/admin/projects')) return 'Projects';
-    if (path.startsWith('/admin/chat')) return 'Chat';
-    if (path.startsWith('/admin/kanban')) return 'Kanban';
-    if (path.startsWith('/admin/settings')) return 'Settings';
+    if (!path || path === '/admin/dashboard') return `${t('dashboard')}`;
+    if (path.startsWith('/admin/team')) return `${t('team')}`;
+    if (path.startsWith('/admin/projects')) return `${t('projects')}`;
+    if (path.startsWith('/admin/chat')) return `${t('chat')}`;
+    if (path.startsWith('/admin/kanban')) return `${t('kanban')}`;
+    if (path.startsWith('/admin/settings')) return `${t('settings')}`;
+    if (path.startsWith('/admin/documents')) return `${t('documents')}`;
     return 'Admin';
   };
+
+  function handleLanguageChange(nextLocale: string) {
+    if (!pathname) return;
+    startTransition(() => {
+      router.replace(pathname, { locale: nextLocale });
+    });
+  }
 
   const currentTitle = getTitle(pathname);
 
@@ -61,13 +74,16 @@ const Header = () => {
           <label className="relative">
             <Search className="w-4 h-4 md:w-5 md:h-5 stroke-(--text-color) absolute top-1/2 -translate-1/2 left-4 cursor-text" />
             <CustomInput
-              placeholder="Type here..."
+              placeholder={t('search_input_plc')}
               className="placeholder:text-[12px] md:text-[13px] placeholder:text-(--text-color) pl-7 md:pl-8 h-9 text-[13px]"
             />
           </label>
         </div>
         <div className="flex items-center gap-2 md:gap-3">
-          <Button className="w-10 h-10 hover:bg-(--text-primary-hover) transition duration-200 hidden md:block">
+          <Button
+            onClick={() => router.push('/admin/documents')}
+            className="w-10 h-10 hover:bg-(--text-primary-hover) transition duration-200 hidden md:block"
+          >
             <CircleQuestionMark className="w-4! h-4! md:w-5! md:h-5!" />
           </Button>
 
@@ -77,9 +93,11 @@ const Header = () => {
 
           <div>
             <CustomSelect
-              placeholder="UZ"
-              defaultValue="uz"
+              placeholder={locale}
+              defaultValue={locale}
               options={OPTION_LANG}
+              onValueChange={handleLanguageChange}
+              disabled={isPending}
               className="w-17 md:w-18 h-10! rounded-lg"
             />
           </div>

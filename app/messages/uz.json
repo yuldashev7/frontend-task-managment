@@ -1,0 +1,69 @@
+{
+  "login_locales": {
+    "img_title": "Ish jarayoningizni bitta tartibli joyda boshqaring.",
+    "img_text": "Jamoangizning eng yaxshi ishlarini tartibsizlarsiz rejalashtiring, kuzating va yetkazib bering.",
+    "welcome": "Xush kelibsiz",
+    "sign_in": "Hisobingizga kiring",
+    "success_sign": "Muvaffaqiyatli kirdingiz",
+
+    "user_name_label": "Foydalanuvchi nomi",
+    "email_label": "Elektron pochta",
+    "password_label": "Parol",
+
+    "user_name_plc": "Foydalanuvchi nomingizni kiriting",
+    "password_plc": "Parolingizni kiriting",
+    "email_plc": "Emailingizni kiriting",
+
+    "forgot_password": "Parolni unutdingizmi?",
+    "Sign_In": "Kirish",
+
+    "enter_your_reset": "Parolni tiklash uchun emailingizni kiriting",
+    "submit": "Yuborish",
+
+    "otp_verification": "OTP tasdiqlash",
+    "check_your_email_verification": "Tasdiqlash kodini ko‘rish uchun emailingizni tekshiring",
+    "otp_code": "OTP kod",
+    "verify": "Tasdiqlash",
+    "didnt_recived_code": "Kod kelmadimi?",
+    "resend_code": "Kodni qayta yuborish",
+
+    "set_new_password": "Yangi parol o‘rnatish",
+    "enter_your_new_password": "Parolni tiklash jarayonini yakunlash uchun yangi parolingizni kiriting",
+    "new_password": "Yangi parol",
+    "confirm_new_password": "Yangi parolni tasdiqlang",
+    "save_new_password": "Yangi parolni saqlash",
+    "remember_old_password": "Eski parolni eslaysizmi?",
+    "succes_password_change": "Parol muvaffaqiyatli o‘zgartirildi",
+    "error_password_res": "Parolni tiklashda xatolik yuz berdi",
+    "error_send_otp_code": "Kod yuborishda xatolik yuz berdi",
+
+    "secces_password_change": "Parolingiz muvaffaqiyatli o‘zgartirildi",
+    "sign_in_new_password": "Yangi parolingiz bilan hisobingizga kiring",
+
+    "user_name_required": "Foydalanuvchi nomi majburiy",
+    "password_required": "Parol majburiy",
+
+    "email_required": "Email kiritish shart",
+    "email_invalid": "Email formatida xatolik bor",
+
+    "invalit_otp": "Noto‘g‘ri OTP. Iltimos, to‘g‘ri OTP kiriting.",
+    "otp_max_length": "Siz faqat 6 ta raqam kirita olasiz",
+
+    "password_min_6": "Parol kamida 6 ta belgi bo'lishi kerak",
+    "confirm_password_required": "Parolni tasdiqlash shart",
+    "passwords_not_match": "Parollar bir-biriga mos kelmadi"
+  },
+
+  "sidebar_locales": {
+    "dashboard": "Panel",
+    "team": "Jamoa",
+    "projects": "Loyihalar",
+    "chat": "Chat",
+    "kanban": "Kanban",
+    "settings": "Sozlamalar",
+    "documents": "Hujjatlar",
+    "feedback": "Fikr-mulohaza",
+    "profile": "Profil",
+    "search_input_plc": "Bu yerga yozing..."
+  }
+}

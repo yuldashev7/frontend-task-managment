@@ -15,18 +15,21 @@ import { Button } from '@/components/ui/button';
 import { UseLogin } from '@/features/auth/api/use-login';
 import { LoginRequestT } from '@/features/auth/types/types';
 import { Spinner } from '@/components/ui/spinner';
-import { LoginFormProps } from '@/app/(auth)/login/page';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchema } from '@/features/auth/schema/login-schema';
+import { LoginFormProps } from '@/app/[locale]/(auth)/login/page';
+import { useTranslations } from 'next-intl';
+import { useLoginSchema } from '@/features/auth/schema/login-schema';
 
 const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const { mutate: loginMutate, isPending } = UseLogin();
+  const t = useTranslations('login_locales');
+  const schema = useLoginSchema();
 
-  type LoginFormValues = z.infer<typeof LoginSchema>;
+  type LoginFormValues = z.infer<typeof schema>;
   const form = useForm<LoginFormValues>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       username: '',
       password: '',
@@ -45,7 +48,7 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
         >
           <label className="h-22 mb-1">
             <p className="text-[12px] text-(--text-label-color) text-left font-medium mb-1">
-              Username
+              {t('user_name_label')}
             </p>
             <FormField
               name="username"
@@ -58,7 +61,7 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
                         className={`stroke-primary/50 w-4.5 h-4.5 absolute top-1/2 -translate-y-1/2 left-4 ${fieldState.error && 'stroke-destructive/50!'}`}
                       />
                       <CustomInput
-                        placeholder="Enter your user name"
+                        placeholder={t('user_name_plc')}
                         className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border-destructive! focus:border-destructive! focus:border-2!'}`}
                         {...field}
                       />
@@ -73,7 +76,7 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
 
           <label className="h-22">
             <p className="text-[12px] text-(--text-label-color) text-left font-medium mb-1">
-              Password
+              {t('password_label')}
             </p>
             <FormField
               name="password"
@@ -87,7 +90,7 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
                       />
                       <CustomInput
                         type={isHidden ? 'password' : 'text'}
-                        placeholder="Enter your password"
+                        placeholder={t('password_plc')}
                         autoComplete="off"
                         className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border-destructive focus:border-destructive! focus:border-2'}`}
                         {...field}
@@ -128,7 +131,7 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
               onClick={() => setActiveTab('forgot')}
               className="text-primary font-medium text-[14px] cursor-pointer transition duration-100 hover:text-(--text-primary-hover) hover:underline"
             >
-              Forgot Password?
+              {t('forgot_password')}
             </button>
           </div>
 
@@ -136,7 +139,7 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
             type="submit"
             className="w-full h-12 rounded-[100px] mt-4 hover:bg-(--text-primary-hover) transition duration-200"
           >
-            {isPending ? <Spinner /> : <p>Sign In</p>}
+            {isPending ? <Spinner /> : <p>{t('Sign_In')}</p>}
           </Button>
         </form>
       </Form>

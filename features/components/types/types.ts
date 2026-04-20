@@ -14,6 +14,7 @@ export interface CustomSelectT {
   className?: string;
   disabled?: boolean;
   value?: string;
+  onValueChange: (value: string) => void;
   renderOption?: (option: OptionT) => React.ReactNode;
 }
 

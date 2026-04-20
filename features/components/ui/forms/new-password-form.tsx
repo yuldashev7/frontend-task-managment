@@ -9,23 +9,26 @@ import { AlertCircle, Eye, EyeOff, LockKeyhole } from 'lucide-react';
 import { CustomInput } from '../custom/custom-input';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { LoginFormProps } from '@/app/(auth)/login/page';
 import { Button } from '@/components/ui/button';
 import z from 'zod';
-import { NewPasswordSchema } from '@/features/auth/schema/new-password-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNewPassword } from '@/features/auth/api/use-new-password';
 import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner';
+import { LoginFormProps } from '@/app/[locale]/(auth)/login/page';
+import { useTranslations } from 'next-intl';
+import { useNewPasswordSchema } from '@/features/auth/schema/new-password-schema';
 
 const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [isHidden2, setIsHidden2] = useState<boolean>(true);
   const { mutate: newPasswordMutate, isPending } = useNewPassword();
+  const t = useTranslations('login_locales');
+  const schema = useNewPasswordSchema();
 
-  type NewPasswordForm = z.infer<typeof NewPasswordSchema>;
+  type NewPasswordForm = z.infer<typeof schema>;
   const form = useForm<NewPasswordForm>({
-    resolver: zodResolver(NewPasswordSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       new_password: '',
       confirm_password: '',
@@ -45,11 +48,11 @@ const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
       onSuccess: () => {
         localStorage.removeItem('reset_email');
         localStorage.removeItem('temp_otp');
-        toast.success('Password changed successfully');
+        toast.success(t('succes_password_change'));
         setActiveTab('success');
       },
       onError: () => {
-        toast.error('Error in password reset');
+        toast.error(t('error_password_res'));
       },
     });
   };
@@ -62,7 +65,7 @@ const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
         >
           <label className="h-22">
             <p className="text-[12px] text-(--text-label-color) text-left font-medium mb-1">
-              New Password
+              {t('new_password')}
             </p>
             <FormField
               name="new_password"
@@ -76,7 +79,7 @@ const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
                       />
                       <CustomInput
                         type={isHidden ? 'password' : 'text'}
-                        placeholder="Enter your new password"
+                        placeholder={t('enter_your_new_password')}
                         autoComplete="off"
                         className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border-destructive focus:border-destructive! focus:border-2'}`}
                         {...field}
@@ -113,7 +116,7 @@ const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
 
           <label className="h-22">
             <p className="text-[12px] text-(--text-label-color) text-left font-medium mb-1">
-              Confirm New Password
+              {t('confirm_new_password')}
             </p>
             <FormField
               name="confirm_password"
@@ -127,7 +130,7 @@ const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
                       />
                       <CustomInput
                         type={isHidden2 ? 'password' : 'text'}
-                        placeholder="Confirm new password"
+                        placeholder={t('confirm_new_password')}
                         autoComplete="off"
                         className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border-destructive focus:border-destructive! focus:border-2'}`}
                         {...field}
@@ -160,19 +163,19 @@ const NewPasswordForm = ({ setActiveTab }: LoginFormProps) => {
             type="submit"
             className="w-full h-12 rounded-[100px] mt-4 hover:bg-(--text-primary-hover) transition duration-200"
           >
-            {isPending ? <Spinner /> : <p>Save New Password</p>}
+            {isPending ? <Spinner /> : <p>{t('save_new_password')}</p>}
           </Button>
 
           <div className="flex items-center gap-1 mt-6 justify-center">
             <p className="text-[14px] text-(--text-color) ">
-              Remember old password?
+              {t('remember_old_password')}
             </p>
 
             <button
               onClick={() => setActiveTab('login')}
               className="text-primary text-[14px] hover:underline transition duration-100 hover:text-(--text-primary-hover)"
             >
-              Sign in
+              {t('Sign_In')}
             </button>
           </div>
         </form>

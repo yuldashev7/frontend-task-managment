@@ -1,60 +1,72 @@
-import axios from 'axios';
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { jwtDecode } from 'jwt-decode';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from '@/app/config/i18n';
 
-export async function INTERCEPTOR_METHOD(req: NextRequest) {
-  const cookieStore = await cookies();
-  let accesToken = cookieStore.get('access_token')?.value;
-  const refreshToken = cookieStore.get('refresh_token')?.value;
+const intlMiddleware = createMiddleware(routing);
 
-  const { pathname, search } = new URL(req.url);
-  const targerUrl = `${process.env.BASE_URL}${pathname.replace('/api/proxy', '')}${search}`;
+export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-  try {
-    const response = await axios({
-      method: req.method,
-      url: targerUrl,
-      data: req.method !== 'GET' ? await req.json().catch(() => {}) : undefined,
-      headers: { Authorization: `Bearer ${accesToken}` },
-    });
+  const token = request.cookies.get('access_token')?.value;
+  const refreshToken = request.cookies.get('refresh_token')?.value;
 
-    return NextResponse.json(response.data);
-  } catch (error: any) {
-    if (error.response.status === 401 && refreshToken) {
-      try {
-        const refreshRes = await axios.post(
-          `${process.env.BASE_URL}/api/auth/refresh/`,
-          { refreshToken }
+  const localeMatch = pathname.match(
+    new RegExp(`^/(${routing.locales.join('|')})`)
+  );
+  const currentLocale = localeMatch ? localeMatch[1] : routing.defaultLocale;
+
+  const pathWithoutLocale =
+    pathname.replace(new RegExp(`^/(${routing.locales.join('|')})/?`), '/') ||
+    '/';
+
+  const isAdminArea = pathWithoutLocale.startsWith('/admin');
+  const isUserArea = pathWithoutLocale.startsWith('/user');
+  const isLogin = pathWithoutLocale.startsWith('/login');
+
+  if (!token && !refreshToken && (isAdminArea || isUserArea)) {
+    return NextResponse.redirect(
+      new URL(`/${currentLocale}/login`, request.url)
+    );
+  }
+
+  if (token) {
+    try {
+      const decoded: any = jwtDecode(token);
+      const userRole = decoded.role;
+
+      if (isLogin) {
+        const dashboardPath =
+          userRole === 'PM' ? '/admin/dashboard' : '/user/dashboard';
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}${dashboardPath}`, request.url)
         );
-        const newToken = refreshRes.data;
+      }
 
-        const res = NextResponse.json({ message: 'Refreshed' });
+      if (userRole !== 'PM' && isAdminArea) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/user/dashboard`, request.url)
+        );
+      }
 
-        const retryResponse = await axios({
-          method: req.method,
-          url: targerUrl,
-          headers: { Authorization: `${newToken.accesToken}` },
-        });
-
-        const finalRes = NextResponse.json(retryResponse.data);
-        finalRes.cookies.set('access_token', newToken.accesToken, {
-          httpOnly: true,
-          sameSite: 'lax',
-        });
-        return finalRes;
-      } catch (error) {
-        return NextResponse.json({ error: 'Session expired' }, { status: 401 });
+      if (userRole === 'PM' && isUserArea) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/admin/dashboard`, request.url)
+        );
+      }
+    } catch (error) {
+      console.error('JWT DEKODLASHDA XATOLIK:', error);
+      if (!refreshToken) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/login`, request.url)
+        );
       }
     }
-    return NextResponse.json(error.response?.data, {
-      status: error.response?.status,
-    });
   }
+
+  return intlMiddleware(request);
 }
 
-export {
-  INTERCEPTOR_METHOD as GET,
-  INTERCEPTOR_METHOD as POST,
-  INTERCEPTOR_METHOD as PUT,
-  INTERCEPTOR_METHOD as DELETE,
+export const config = {
+  matcher: ['/', '/(uz|en|ru)/:path*', '/((?!api|_next|_vercel|.*\\..*).*)'],
 };

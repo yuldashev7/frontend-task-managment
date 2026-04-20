@@ -1,0 +1,69 @@
+{
+  "login_locales": {
+    "img_title": "Управляйте своим рабочим процессом в одном организованном месте.",
+    "img_text": "Планируйте, отслеживайте и выполняйте лучшую работу вашей команды без хаоса.",
+    "welcome": "С возвращением",
+    "sign_in": "Войдите в свой аккаунт",
+     "success_sign":"Вы успешно вошли в систему",
+
+    "user_name_label": "Имя пользователя",
+    "email_label": "Электронная почта",
+    "password_label": "Пароль",
+
+    "user_name_plc": "Введите имя пользователя",
+    "password_plc": "Введите пароль",
+    "email_plc": "Введите вашу электронную почту",
+
+    "forgot_password": "Забыли пароль?",
+    "Sign_In": "Войти",
+
+    "enter_your_reset": "Введите вашу электронную почту для сброса пароля",
+    "submit": "Отправить",
+
+    "otp_verification": "Подтверждение OTP",
+    "check_your_email_verification": "Проверьте свою электронную почту, чтобы увидеть код подтверждения",
+    "otp_code": "OTP код",
+    "verify": "Подтвердить",
+    "didnt_recived_code": "Не получили код?",
+    "resend_code": "Отправить код повторно",
+
+    "set_new_password": "Установить новый пароль",
+    "enter_your_new_password": "Введите новый пароль, чтобы завершить процесс сброса",
+    "new_password": "Новый пароль",
+    "confirm_new_password": "Подтвердите новый пароль",
+    "save_new_password": "Сохранить новый пароль",
+    "remember_old_password": "Помните старый пароль?",
+    "succes_password_change": "Пароль успешно изменён",
+    "error_password_res": "Ошибка при сбросе пароля",
+    "error_send_otp_code": "Ошибка при отправке кода",
+
+    "secces_password_change": "Ваш пароль успешно изменён",
+    "sign_in_new_password": "Войдите в свой аккаунт с новым паролем",
+
+    "user_name_required": "Имя пользователя обязательно",
+    "password_required": "Пароль обязателен",
+
+    "email_required": "Необходимо ввести email",
+    "email_invalid": "Неверный формат email",
+
+    "invalit_otp": "Неверный OTP. Пожалуйста, введите правильный OTP.",
+    "otp_max_length": "Вы можете ввести только 6 цифр",
+
+    "password_min_6": "Пароль должен содержать минимум 6 символов",
+    "confirm_password_required": "Подтверждение пароля обязательно",
+    "passwords_not_match": "Пароли не совпадают"
+  },
+
+  "sidebar_locales": {
+    "dashboard": "Панель",
+    "team": "Команда",
+    "projects": "Проекты",
+    "chat": "Чат",
+    "kanban": "Канбан",
+    "settings": "Настройки",
+    "documents": "Документы",
+    "feedback": "Обратная связь",
+    "profile": "Профиль",
+    "search_input_plc": "Введите здесь..."
+  }
+}

@@ -12,15 +12,15 @@ import { CustomSelectT } from '../../types/types';
 export function CustomSelect({
   options,
   placeholder,
-  onChange,
   defaultValue,
   className,
   disabled,
+  onValueChange,
   renderOption,
 }: CustomSelectT) {
   return (
     <Select
-      onValueChange={onChange}
+      onValueChange={onValueChange}
       defaultValue={defaultValue}
       disabled={disabled}
     >

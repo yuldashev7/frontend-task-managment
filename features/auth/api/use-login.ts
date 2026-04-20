@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { LoginRequestT } from '../types/types';
+import { useRouter } from '@/app/config/navigation';
+import { useTranslations } from 'next-intl';
 
 export const UseLogin = () => {
   const router = useRouter();
+  const t = useTranslations();
 
   return useMutation({
     mutationFn: async (values: LoginRequestT) => {
@@ -13,7 +15,8 @@ export const UseLogin = () => {
       return data;
     },
     onSuccess: (data) => {
-      toast.success('Success');
+      toast.success(t('success_sign'));
+
       if (data.role === 'PM') {
         router.push('/admin/dashboard');
       } else {
