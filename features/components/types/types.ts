@@ -21,3 +21,13 @@ export interface AuthPageProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
 }
+
+export interface dialogT {
+  open: boolean;
+  onClose: () => void;
+}
+
+export interface drawerT {
+  open: boolean;
+  onClose: () => void;
+}

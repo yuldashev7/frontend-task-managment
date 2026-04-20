@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CustomSelectT } from '../types/types';
+import { CustomSelectT } from '../../types/types';
 
 export function CustomSelect({
   options,

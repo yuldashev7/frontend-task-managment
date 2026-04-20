@@ -7,20 +7,26 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Eye, EyeOff, LockKeyhole, User } from 'lucide-react';
+import { AlertCircle, Eye, EyeOff, LockKeyhole, User } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { CustomInput } from '../custom-input';
+import { CustomInput } from '../custom/custom-input';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { UseLogin } from '@/features/auth/api/use-login';
 import { LoginRequestT } from '@/features/auth/types/types';
 import { Spinner } from '@/components/ui/spinner';
 import { LoginFormProps } from '@/app/(auth)/login/page';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginSchema } from '@/features/auth/schema/login-schema';
 
 const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const { mutate: loginMutate, isPending } = UseLogin();
-  const form = useForm({
+
+  type LoginFormValues = z.infer<typeof LoginSchema>;
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       username: '',
       password: '',
@@ -33,65 +39,88 @@ const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            name="username"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[13px] text-(--text-label-color)">
-                  Email
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <User className="stroke-primary/50 w-4.5 h-4.5 absolute top-1/2 -translate-y-1/2 left-4" />
-                    <CustomInput
-                      placeholder="Enter your email"
-                      className="h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2"
-                      {...field}
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-1"
+        >
+          <label className="h-22 mb-1">
+            <p className="text-[12px] text-(--text-label-color) text-left font-medium mb-1">
+              Username
+            </p>
+            <FormField
+              name="username"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="relative">
+                      <User
+                        className={`stroke-primary/50 w-4.5 h-4.5 absolute top-1/2 -translate-y-1/2 left-4 ${fieldState.error && 'stroke-destructive/50!'}`}
+                      />
+                      <CustomInput
+                        placeholder="Enter your user name"
+                        className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border-destructive! focus:border-destructive! focus:border-2!'}`}
+                        {...field}
+                      />
+                    </div>
+                  </FormControl>
 
-          <FormField
-            name="password"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[13px] text-(--text-label-color)">
-                  Password
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <LockKeyhole className="stroke-primary/50 w-4.5 h-4.5 absolute top-1/2 -translate-y-1/2 left-4" />
-                    <CustomInput
-                      type={isHidden ? 'password' : 'text'}
-                      placeholder="Enter your password"
-                      autoComplete="off"
-                      className="h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2"
-                      {...field}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setIsHidden(!isHidden)}
-                      className="absolute top-1/2 -translate-1/2 right-1"
-                    >
-                      {isHidden ? (
-                        <Eye className="stroke-primary/50 w-4.5 h-4.5 hover:stroke-(--text-primary-hover) transition duration-200" />
-                      ) : (
-                        <EyeOff className="stroke-primary/50 w-4.5 h-4.5 hover:stroke-(--text-primary-hover) transition duration-200" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage className="text-[12px] text-start" />
+                </FormItem>
+              )}
+            />
+          </label>
+
+          <label className="h-22">
+            <p className="text-[12px] text-(--text-label-color) text-left font-medium mb-1">
+              Password
+            </p>
+            <FormField
+              name="password"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="relative">
+                      <LockKeyhole
+                        className={`stroke-primary/50 w-4.5 h-4.5 absolute top-1/2 -translate-y-1/2 left-4 ${fieldState.error && 'stroke-destructive/50!'}`}
+                      />
+                      <CustomInput
+                        type={isHidden ? 'password' : 'text'}
+                        placeholder="Enter your password"
+                        autoComplete="off"
+                        className={`h-10.5 rounded-[100px] border border-primary/50 pl-10 text-[14px] focus:border-primary! focus:border-2 ${fieldState.error && 'border-destructive focus:border-destructive! focus:border-2'}`}
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setIsHidden(!isHidden)}
+                        className="absolute top-1/2 -translate-1/2 right-1"
+                      >
+                        {isHidden ? (
+                          <Eye
+                            className={`stroke-primary/50 w-4.5 h-4.5 hover:stroke-(--text-primary-hover) transition duration-200 ${fieldState.error && 'stroke-destructive/50!'}`}
+                          />
+                        ) : (
+                          <EyeOff
+                            className={`stroke-primary/50 w-4.5 h-4.5 hover:stroke-(--text-primary-hover) transition duration-200 ${fieldState.error && 'stroke-destructive/50!'}`}
+                          />
+                        )}
+                      </button>
+                    </div>
+                  </FormControl>
+                  {fieldState.error && (
+                    <div className="flex items-center gap-1">
+                      <p>
+                        <AlertCircle className="fill-destructive stroke-white w-3.75 h-3.75" />
+                      </p>
+                      <FormMessage className="text-[12px] text-start" />
+                    </div>
+                  )}
+                </FormItem>
+              )}
+            />
+          </label>
 
           <div className="flex justify-end mt-2">
             <button

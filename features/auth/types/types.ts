@@ -21,3 +21,25 @@ export interface LoginRequestT {
   username: string;
   password: string;
 }
+
+export interface forgotT {
+  email: string;
+}
+
+export interface otpCodeT {
+  code: number;
+  retry_timeout: number;
+  message: string;
+}
+
+export interface VerifyOtpT {
+  code: string;
+  email: string;
+}
+
+export interface NewPasswordT {
+  email: string;
+  code: string;
+  new_password: string;
+  confirm_password: string;
+}
