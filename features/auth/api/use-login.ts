@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 
 export const UseLogin = () => {
   const router = useRouter();
-  const t = useTranslations();
+  const t = useTranslations('login_locales');
 
   return useMutation({
     mutationFn: async (values: LoginRequestT) => {
@@ -24,7 +24,7 @@ export const UseLogin = () => {
       }
     },
     onError: (error: any) => {
-      const message = error.response?.data?.detail || 'Login yoki parol xato!';
+      const message = error.response?.data?.detail || t('error_login');
       toast.error(message);
     },
   });

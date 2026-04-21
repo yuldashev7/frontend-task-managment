@@ -17,9 +17,9 @@ import { LoginRequestT } from '@/features/auth/types/types';
 import { Spinner } from '@/components/ui/spinner';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginFormProps } from '@/app/[locale]/(auth)/login/page';
 import { useTranslations } from 'next-intl';
 import { useLoginSchema } from '@/features/auth/schema/login-schema';
+import { LoginFormProps } from '@/app/[locale]/(auth)/login/page';
 
 const LoginFormWrapper = ({ setActiveTab }: LoginFormProps) => {
   const [isHidden, setIsHidden] = useState<boolean>(true);

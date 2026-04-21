@@ -5,6 +5,7 @@
     "welcome": "Welcome Back",
     "sign_in": "Sign in to your account",
     "success_sign": "You have successfully logged in",
+    "error_login": "Incorrect username or password!",
 
     "user_name_label": "Username",
     "email_label": "Email",

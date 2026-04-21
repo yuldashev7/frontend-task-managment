@@ -17,11 +17,13 @@ const AdminSidebar = () => {
   return (
     <aside
       style={{ scrollbarWidth: 'none' }}
-      className="w-full pb-5 bg-white/90 h-screen px-2 hidden lg:block"
+      className="w-65 h-screen sticky top-0 bg-white/90 hidden lg:flex flex-col"
     >
-      <nav className="h-full flex flex-col justify-between">
+      <nav className="h-full flex flex-col justify-between no-scrollbar">
         <div
-          style={{ scrollbarWidth: 'none' }}
+          style={{
+            scrollbarWidth: 'none',
+          }}
           className="flex-1 overflow-y-auto px-1 mt-5.5"
         >
           <span

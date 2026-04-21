@@ -5,6 +5,7 @@
     "welcome": "Xush kelibsiz",
     "sign_in": "Hisobingizga kiring",
     "success_sign": "Muvaffaqiyatli kirdingiz",
+    "error_login": "Username yoki parol xato!",
 
     "user_name_label": "Foydalanuvchi nomi",
     "email_label": "Elektron pochta",
