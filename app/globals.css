@@ -93,16 +93,23 @@
   --text-primary-hover: #2cb1a3;
   --text-label-color: #2e3139;
   --loading-bg-color: #e4e4e4;
+  --card-bg: #fff;
+  --sidebar-acitve: '#f3f4f6';
+  --light-primary: #4fd1c5;
+  --icon-acitve: #fff;
+  --name-color: #090037;
+  --text-btn: #fff;
+  --tab-bg: #eaeaea;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #0b1120;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --primary: #2a8175;
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -127,6 +134,16 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --card-bg: #161f32;
+  --sidebar-acitve: #0f1c3a;
+  --light-primary: #4fd1c5;
+  --icon-acitve: #0f1c3a;
+  --text-title: #b8bdc7;
+  --text-color: #888eb5;
+  --text-label-color: #767676;
+  --name-color: #b8bdc7;
+  --text-btn: #888eb5;
+  --tab-bg: #1e293b;
 }
 
 body {

@@ -7,13 +7,18 @@
     "success_sign": "You have successfully logged in",
     "error_login": "Incorrect username or password!",
 
-    "user_name_label": "Username",
+    "user_name_label": "User Name",
     "email_label": "Email",
     "password_label": "Password",
+    "phone_number_label": "Phone Number",
 
     "user_name_plc": "Enter your user name",
     "password_plc": "Enter your password",
     "email_plc": "Enter your email",
+    "phone_number_plc": "Enter your phone number",
+    "old_password": "Old password",
+    "reset_password": "Change password",
+    "save":"Save",
 
     "forgot_password": "Forgot Password?",
     "Sign_In": "Sign In",
@@ -65,5 +70,21 @@
     "feedback": "Feedback",
     "profile": "Profile",
     "search_input_plc": "Type here..."
+  },
+
+  "admin_profile_locales": {
+    "update_cover": "Update image",
+    "edit_account_info": "Edit your account information",
+    "edit_profile": "Edit profile",
+    "email_label": "Email",
+    "phone_number": "Phone number",
+    "password": "Password",
+    "change_password": "Change password",
+    "system_theme": "System theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "LogOut": "Log out",
+    "user_name_label": "Username"
   }
 }

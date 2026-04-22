@@ -17,7 +17,7 @@ const AdminSidebar = () => {
   return (
     <aside
       style={{ scrollbarWidth: 'none' }}
-      className="w-65 h-screen sticky top-0 bg-white/90 hidden lg:flex flex-col"
+      className="w-65 h-screen sticky top-0 bg-(--card-bg)/90 hidden lg:flex flex-col"
     >
       <nav className="h-full flex flex-col justify-between no-scrollbar">
         <div
@@ -45,7 +45,7 @@ const AdminSidebar = () => {
                       href={item.href}
                       className={[
                         'flex items-center transition duration-300 pr-14 w-full text-[16px] gap-2 rounded-[15px] pl-5 h-12 text-sm',
-                        active ? 'bg-gray-100' : '',
+                        active ? 'bg-(--sidebar-acitve)' : '',
                       ].join(' ')}
                     >
                       <span

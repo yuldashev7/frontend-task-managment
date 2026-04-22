@@ -10,6 +10,8 @@ import { routing } from '../config/i18n';
 import { notFound } from 'next/navigation';
 import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
+import { ThemeProvider } from '@/providers/theme-provider';
+import { cookies } from 'next/headers';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -30,22 +32,29 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-
   if (!routing.locales.includes(locale as any)) notFound();
-
   const messages = await getMessages();
+
+  const cookieStore = await cookies();
+  const theme = cookieStore.get('theme')?.value || 'system';
+
   return (
-    <html
-      lang={locale}
-      className={cn('h-full', 'antialiased', poppins.variable, 'font-sans')}
-    >
-      <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider messages={messages}>
-          <ViewTransitions>
-            <NextTopLoader showSpinner={false} color="#4fd1c5" />
-            <Toaster position="top-center" />
-            <Providers>{children}</Providers>
-          </ViewTransitions>
+    <html suppressHydrationWarning lang={locale} className={poppins.variable}>
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme={theme}
+            disableTransitionOnChange
+            storageKey="theme"
+            enableSystem
+          >
+            <ViewTransitions>
+              <NextTopLoader showSpinner={false} color="#4fd1c5" />
+              <Toaster position="top-center" />
+              <Providers>{children}</Providers>
+            </ViewTransitions>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

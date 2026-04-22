@@ -49,18 +49,18 @@ const Header = () => {
   function handleLanguageChange(nextLocale: string) {
     if (!pathname) return;
     startTransition(() => {
-      router.replace(pathname, { locale: nextLocale });
+      router.replace(pathname, { locale: nextLocale,scroll:false });
     });
   }
 
   const currentTitle = getTitle(pathname);
 
   return (
-    <div className="bg-white/90 w-full px-2 md:px-4 py-4">
+    <div className="bg-(--card-bg)/90 w-full px-2 md:px-4 py-4">
       <div className="flex items-center justify-between">
         {/* left */}
         <div className="flex items-center gap-2 md:gap-6">
-          <h1 className="font-medium text-[24px] hidden lg:block">
+          <h1 className="font-medium text-[24px] hidden lg:block text-(--text-title)">
             {currentTitle}
           </h1>
 
@@ -84,11 +84,11 @@ const Header = () => {
             onClick={() => router.push('/admin/documents')}
             className="w-10 h-10 hover:bg-(--text-primary-hover) transition duration-200 hidden md:block"
           >
-            <CircleQuestionMark className="w-4! h-4! md:w-5! md:h-5!" />
+            <CircleQuestionMark className="w-4! h-4! md:w-5! md:h-5! stroke-white" />
           </Button>
 
           <Button className="w-10 h-10 hover:bg-(--text-primary-hover) transition duration-200 ml-2 md:ml-0">
-            <BellIcon className="w-4! h-4! md:w-5! md:h-5!" />
+            <BellIcon className="w-4! h-4! md:w-5! md:h-5! stroke-white" />
           </Button>
 
           <div>

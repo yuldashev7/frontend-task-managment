@@ -8,12 +8,17 @@
     "error_login": "Username yoki parol xato!",
 
     "user_name_label": "Foydalanuvchi nomi",
-    "email_label": "Elektron pochta",
+    "email_label": "Email manzil",
     "password_label": "Parol",
+    "phone_number_label": "Telefon Raqam",
 
     "user_name_plc": "Foydalanuvchi nomingizni kiriting",
     "password_plc": "Parolingizni kiriting",
     "email_plc": "Emailingizni kiriting",
+    "phone_number_plc": "Telefon Raqamingiz",
+    "old_password": "Eski parol",
+    "reset_password":"Parolni almashtirish",
+    "save":"Saqlash",
 
     "forgot_password": "Parolni unutdingizmi?",
     "Sign_In": "Kirish",
@@ -66,5 +71,21 @@
     "feedback": "Fikr-mulohaza",
     "profile": "Profil",
     "search_input_plc": "Bu yerga yozing..."
+  },
+
+  "admin_profile_locales": {
+    "update_cover": "Rasmni yangilash",
+    "edit_account_info": "Akkaunt ma'lumotlarini o'zgartirish",
+    "edit_profile": "Profilni o'zgartirish",
+    "email_label": "Email manzil",
+    "phone_number": "Telefon raqami",
+    "password": "Parol",
+    "change_password": "Parolni o'zgartirish",
+    "system_theme": "Tizim mavzusi",
+    "light": "Yorug'",
+    "dark": "To'q",
+    "system": "Tizim",
+    "LogOut": "Chiqish",
+    "user_name_label": "Foydalanuvchi nomi"
   }
 }

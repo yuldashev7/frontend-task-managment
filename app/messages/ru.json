@@ -10,10 +10,15 @@
     "user_name_label": "Имя пользователя",
     "email_label": "Электронная почта",
     "password_label": "Пароль",
+    "phone_number_label": "Номер Телефон",
 
     "user_name_plc": "Введите имя пользователя",
     "password_plc": "Введите пароль",
     "email_plc": "Введите вашу электронную почту",
+    "phone_number_plc": "Номер телефона",
+    "old_password": "Старый пароль",
+    "reset_password": "Сменить пароль",
+    "save": "Сохранить",
 
     "forgot_password": "Забыли пароль?",
     "Sign_In": "Войти",
@@ -66,5 +71,21 @@
     "feedback": "Обратная связь",
     "profile": "Профиль",
     "search_input_plc": "Введите здесь..."
+  },
+
+  "admin_profile_locales": {
+    "update_cover": "Обновить фото",
+    "edit_account_info": "Изменить информацию об аккаунте",
+    "edit_profile": "Изменить профиль",
+    "email_label": "Электронная почта",
+    "phone_number": "Номер телефона",
+    "password": "Пароль",
+    "change_password": "Изменение пароля",
+    "system_theme": "Системная тема",
+    "light": "Светлая",
+    "dark": "Темная",
+    "system": "Системная",
+    "LogOut": "Выйти",
+    "user_name_label": "Имя пользователя"
   }
 }
