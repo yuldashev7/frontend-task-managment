@@ -262,7 +262,11 @@ const AdminSettingsPage = () => {
           </div>
         </div>
       </section>
-      <AdminProfileEditDialog open={isOpen} onClose={() => setIsOpen(false)} />
+      <AdminProfileEditDialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        initialData={item}
+      />
     </div>
   );
 };

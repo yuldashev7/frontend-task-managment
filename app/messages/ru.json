@@ -19,6 +19,8 @@
     "old_password": "Старый пароль",
     "reset_password": "Сменить пароль",
     "save": "Сохранить",
+    "first_name": "Имя",
+    "last_name": "Фамилия",
 
     "forgot_password": "Забыли пароль?",
     "Sign_In": "Войти",
@@ -57,7 +59,8 @@
 
     "password_min_6": "Пароль должен содержать минимум 6 символов",
     "confirm_password_required": "Подтверждение пароля обязательно",
-    "passwords_not_match": "Пароли не совпадают"
+    "passwords_not_match": "Пароли не совпадают",
+    "update_profile": "Профиль успешно обновлен"
   },
 
   "sidebar_locales": {

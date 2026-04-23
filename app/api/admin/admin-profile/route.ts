@@ -5,23 +5,28 @@ import { toast } from 'sonner';
 
 export async function PATCH(req: Request) {
   try {
-    const formData = await req.formData();
+    const body = await req.json();
     const cookiesStore = await cookies();
     const token = cookiesStore.get('access_token')?.value;
 
+    if (!token) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
     const res = await axios.patch(
       `${process.env.BASE_URL}/api/auth/me/`,
-      formData,
+      body,
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       }
     );
 
     return NextResponse.json(res.data, { status: res.status });
   } catch (error: any) {
-    toast.error('Edit error:', error.response.data || error.message);
+    console.log('Edit error:', error.response.data || error.message);
     return NextResponse.json(
       error.response?.data || { message: 'Internal Server Error' },
       { status: error.response?.status || 500 }

@@ -1,19 +1,25 @@
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
+  DialogTitle,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
+  DialogContent,
+  DialogDescription,
 } from '@/components/ui/dialog';
-import { dialogT } from '@/features/components/types/types';
-import { useTranslations } from 'next-intl';
+
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
+import { dialogT } from '@/features/components/types/types';
+import { editProfileT } from '../types/types';
 
 const AdminProfileTab = dynamic(() => import('./admin-profile-tab'));
 
-const AdminProfileEditDialog = ({ open, onClose }: dialogT) => {
+const AdminProfileEditDialog = ({
+  open,
+  onClose,
+  initialData,
+}: dialogT & { initialData?: editProfileT }) => {
   const t = useTranslations('admin_profile_locales');
   return (
     <div>
@@ -25,7 +31,7 @@ const AdminProfileEditDialog = ({ open, onClose }: dialogT) => {
             <DialogDescription />
           </DialogHeader>
           <div>
-            <AdminProfileTab />
+            <AdminProfileTab initialData={initialData} onClose={onClose} />
           </div>
           <DialogFooter className="border-none bg-transparent" />
         </DialogContent>

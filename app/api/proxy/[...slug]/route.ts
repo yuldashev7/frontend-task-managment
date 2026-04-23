@@ -1,72 +1,162 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { jwtDecode } from 'jwt-decode';
-import createMiddleware from 'next-intl/middleware';
-import { routing } from '@/app/config/i18n';
 
-const intlMiddleware = createMiddleware(routing);
+const BASE_URL = process.env.BASE_URL!;
 
-export default function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+type RouteContext = {
+  params: Promise<{
+    slug: string[];
+  }>;
+};
 
-  const token = request.cookies.get('access_token')?.value;
-  const refreshToken = request.cookies.get('refresh_token')?.value;
+type RefreshResponse = {
+  accessToken?: string;
+  refreshToken?: string;
+};
 
-  const localeMatch = pathname.match(
-    new RegExp(`^/(${routing.locales.join('|')})`)
-  );
-  const currentLocale = localeMatch ? localeMatch[1] : routing.defaultLocale;
+async function refreshAccessToken(
+  refreshToken: string
+): Promise<RefreshResponse | null> {
+  const res = await fetch(`${BASE_URL}/api/auth/refresh/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      refreshToken,
+    }),
+    cache: 'no-store',
+  });
 
-  const pathWithoutLocale =
-    pathname.replace(new RegExp(`^/(${routing.locales.join('|')})/?`), '/') ||
-    '/';
-
-  const isAdminArea = pathWithoutLocale.startsWith('/admin');
-  const isUserArea = pathWithoutLocale.startsWith('/user');
-  const isLogin = pathWithoutLocale.startsWith('/login');
-
-  if (!token && !refreshToken && (isAdminArea || isUserArea)) {
-    return NextResponse.redirect(
-      new URL(`/${currentLocale}/login`, request.url)
-    );
+  if (!res.ok) {
+    return null;
   }
 
-  if (token) {
-    try {
-      const decoded: any = jwtDecode(token);
-      const userRole = decoded.role;
+  return res.json();
+}
 
-      if (isLogin) {
-        const dashboardPath =
-          userRole === 'PM' ? '/admin/dashboard' : '/user/dashboard';
-        return NextResponse.redirect(
-          new URL(`/${currentLocale}${dashboardPath}`, request.url)
-        );
+function buildTargetUrl(request: NextRequest, slug: string[]) {
+  const search = request.nextUrl.search;
+  return `${BASE_URL}/api/${slug.join('/')}/${search}`;
+}
+
+async function forwardRequest(
+  request: NextRequest,
+  targetUrl: string,
+  accessToken?: string
+) {
+  const headers = new Headers();
+
+  const contentType = request.headers.get('content-type');
+  if (contentType) {
+    headers.set('Content-Type', contentType);
+  }
+
+  if (accessToken) {
+    headers.set('Authorization', `Bearer ${accessToken}`);
+  }
+
+  const body =
+    request.method === 'GET' || request.method === 'HEAD'
+      ? undefined
+      : await request.text();
+
+  const response = await fetch(targetUrl, {
+    method: request.method,
+    headers,
+    body,
+    cache: 'no-store',
+  });
+
+  return { response, body, headers };
+}
+
+async function handler(request: NextRequest, context: RouteContext) {
+  const { slug } = await context.params;
+  const targetUrl = buildTargetUrl(request, slug);
+
+  let accessToken = request.cookies.get('access_token')?.value;
+  const refreshToken = request.cookies.get('refresh_token')?.value;
+
+  const initial = await forwardRequest(request, targetUrl, accessToken);
+  let backendRes = initial.response;
+
+  if (backendRes.status === 401 && refreshToken) {
+    const refreshed = await refreshAccessToken(refreshToken);
+
+    if (refreshed?.accessToken) {
+      accessToken = refreshed.accessToken;
+
+      const retryHeaders = new Headers(initial.headers);
+      retryHeaders.set('Authorization', `Bearer ${accessToken}`);
+
+      backendRes = await fetch(targetUrl, {
+        method: request.method,
+        headers: retryHeaders,
+        body: initial.body,
+        cache: 'no-store',
+      });
+
+      const responseBody = await backendRes.text();
+      const response = new NextResponse(responseBody, {
+        status: backendRes.status,
+      });
+
+      const responseContentType = backendRes.headers.get('content-type');
+      if (responseContentType) {
+        response.headers.set('Content-Type', responseContentType);
       }
 
-      if (userRole !== 'PM' && isAdminArea) {
-        return NextResponse.redirect(
-          new URL(`/${currentLocale}/user/dashboard`, request.url)
-        );
+      response.cookies.set('access_token', refreshed.accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60,
+      });
+
+      if (refreshed.refreshToken) {
+        response.cookies.set('refresh_token', refreshed.refreshToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7,
+        });
       }
 
-      if (userRole === 'PM' && isUserArea) {
-        return NextResponse.redirect(
-          new URL(`/${currentLocale}/admin/dashboard`, request.url)
-        );
-      }
-    } catch (error) {
-      console.error('JWT DEKODLASHDA XATOLIK:', error);
-      if (!refreshToken) {
-        return NextResponse.redirect(
-          new URL(`/${currentLocale}/login`, request.url)
-        );
-      }
+      return response;
     }
   }
 
-  return intlMiddleware(request);
+  const responseBody = await backendRes.text();
+  const response = new NextResponse(responseBody, {
+    status: backendRes.status,
+  });
+
+  const responseContentType = backendRes.headers.get('content-type');
+  if (responseContentType) {
+    response.headers.set('Content-Type', responseContentType);
+  }
+
+  return response;
 }
 
-export const config = {
-  matcher: ['/', '/(uz|en|ru)/:path*', '/((?!api|_next|_vercel|.*\\..*).*)'],
-};
+export async function GET(request: NextRequest, context: RouteContext) {
+  return handler(request, context);
+}
+
+export async function POST(request: NextRequest, context: RouteContext) {
+  return handler(request, context);
+}
+
+export async function PUT(request: NextRequest, context: RouteContext) {
+  return handler(request, context);
+}
+
+export async function PATCH(request: NextRequest, context: RouteContext) {
+  return handler(request, context);
+}
+
+export async function DELETE(request: NextRequest, context: RouteContext) {
+  return handler(request, context);
+}

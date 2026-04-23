@@ -1,10 +1,17 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import dynamic from 'next/dynamic';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { editProfileT } from '../types/types';
 
 const AdminProfileEdit = dynamic(() => import('./forms/admin-profile-edit'));
 const AdminPasswordEdit = dynamic(() => import('./forms/admin-password-edit'));
 
-const AdminProfileTab = () => {
+const AdminProfileTab = ({
+  initialData,
+  onClose,
+}: {
+  initialData?: editProfileT;
+  onClose: () => void;
+}) => {
   return (
     <div>
       <Tabs defaultValue="profile">
@@ -24,7 +31,7 @@ const AdminProfileTab = () => {
         </TabsList>
         <TabsContent value="profile">
           <div className="mt-2">
-            <AdminProfileEdit />
+            <AdminProfileEdit initialData={initialData} onClose={onClose} />
           </div>
         </TabsContent>
         <TabsContent value="password">

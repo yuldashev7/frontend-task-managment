@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { CustomInput } from '@/features/components/ui/custom/custom-input';
-import { Eye, EyeOff } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Eye, EyeOff } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Button } from '@/components/ui/button';
+import { CustomInput } from '@/features/components/ui/custom/custom-input';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
 const AdminPasswordEdit = () => {
   const t = useTranslations('login_locales');
@@ -67,7 +67,7 @@ const AdminPasswordEdit = () => {
               {t('new_password')}
             </p>
             <FormField
-              name="old_password"
+              name="new_password"
               control={form.control}
               render={({ field, fieldState }) => (
                 <FormItem>

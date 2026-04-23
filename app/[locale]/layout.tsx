@@ -1,17 +1,16 @@
-import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
 import '../globals.css';
-import { cn } from '@/lib/utils';
-import { ViewTransitions } from 'next-view-transitions';
-import Providers from '@/providers/query-provider';
 import { Toaster } from 'sonner';
-import NextTopLoader from 'nextjs-toploader';
+import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { routing } from '../config/i18n';
 import { notFound } from 'next/navigation';
+import { Poppins } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
+import Providers from '@/providers/query-provider';
+import { ViewTransitions } from 'next-view-transitions';
 import { ThemeProvider } from '@/providers/theme-provider';
-import { cookies } from 'next/headers';
 
 const poppins = Poppins({
   subsets: ['latin'],

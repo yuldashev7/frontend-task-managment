@@ -18,7 +18,9 @@
     "phone_number_plc": "Enter your phone number",
     "old_password": "Old password",
     "reset_password": "Change password",
-    "save":"Save",
+    "save": "Save",
+    "first_name": "First Name",
+    "last_name": "Last Name",
 
     "forgot_password": "Forgot Password?",
     "Sign_In": "Sign In",
@@ -57,7 +59,8 @@
 
     "password_min_6": "Password must be at least 6 characters",
     "confirm_password_required": "Password confirmation is required",
-    "passwords_not_match": "Passwords do not match"
+    "passwords_not_match": "Passwords do not match",
+    "update_profile": "Profile updated successfully"
   },
   "sidebar_locales": {
     "dashboard": "Dashboard",

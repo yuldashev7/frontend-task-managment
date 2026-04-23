@@ -9,7 +9,5 @@ export const useGetProfile = () => {
       const { data } = await axios.get('/api/settings');
       return data;
     },
-    staleTime: 1000 * 60 * 5,
-    retry: 1,
   });
 };

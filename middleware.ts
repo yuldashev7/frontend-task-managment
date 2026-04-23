@@ -5,8 +5,14 @@ import { routing } from './app/config/i18n';
 
 const intlMiddleware = createMiddleware(routing);
 
+type DecodedToken = {
+  role?: string;
+  exp?: number;
+};
+
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
   const token = request.cookies.get('access_token')?.value;
   const refreshToken = request.cookies.get('refresh_token')?.value;
 
@@ -23,32 +29,33 @@ export default function middleware(request: NextRequest) {
   const isUserArea = pathWithoutLocale.startsWith('/user');
   const isLogin = pathWithoutLocale.startsWith('/login');
 
-  if (!token && refreshToken && (isAdminArea || isUserArea)) {
+  if (!token && !refreshToken && (isAdminArea || isUserArea)) {
     return NextResponse.redirect(
       new URL(`/${currentLocale}/login`, request.url)
     );
   }
 
+  if (!token && refreshToken) {
+    if (isLogin) {
+      return intlMiddleware(request);
+    }
+
+    if (isAdminArea || isUserArea) {
+      return intlMiddleware(request);
+    }
+  }
+
   if (token) {
     try {
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode<DecodedToken>(token);
       const userRole = decoded.role;
 
       if (isLogin) {
-        if (userRole === 'PM') {
-          return NextResponse.redirect(
-            new URL(`/${currentLocale}/admin/dashboard`, request.url)
-          );
-        } else {
-          return NextResponse.redirect(
-            new URL(`/${currentLocale}/user/dashboard`, request.url)
-          );
-        }
-      }
+        const dashboardPath =
+          userRole === 'PM' ? '/admin/dashboard' : '/user/dashboard';
 
-      if (userRole === 'PM' && isUserArea) {
         return NextResponse.redirect(
-          new URL(`/${currentLocale}/admin/dashboard`, request.url)
+          new URL(`/${currentLocale}${dashboardPath}`, request.url)
         );
       }
 
@@ -57,11 +64,22 @@ export default function middleware(request: NextRequest) {
           new URL(`/${currentLocale}/user/dashboard`, request.url)
         );
       }
+
+      if (userRole === 'PM' && isUserArea) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/admin/dashboard`, request.url)
+        );
+      }
     } catch (error) {
-      console.error('JWT DEKODLASHDA XATOLIK:', error);
-      return NextResponse.redirect(
-        new URL(`/${currentLocale}/login`, request.url)
-      );
+      console.error('JWT decode error:', error);
+
+      if (!refreshToken) {
+        return NextResponse.redirect(
+          new URL(`/${currentLocale}/login`, request.url)
+        );
+      }
+
+      return intlMiddleware(request);
     }
   }
 
