@@ -44,7 +44,7 @@ const AdminSidebar = () => {
                     <Link
                       href={item.href}
                       className={[
-                        'flex items-center transition duration-300 pr-14 w-full text-[16px] gap-2 rounded-[15px] pl-5 h-12 text-sm',
+                        'flex items-center text-(--sidebar-text-color) transition duration-300 pr-14 w-full text-[16px] gap-2 rounded-[15px] pl-5 h-12 text-sm',
                         active ? 'bg-(--sidebar-acitve)' : '',
                       ].join(' ')}
                     >

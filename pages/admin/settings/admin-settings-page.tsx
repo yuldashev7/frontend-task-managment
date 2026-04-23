@@ -16,8 +16,7 @@ import {
 
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { useTheme } from 'next-themes';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -39,39 +38,87 @@ const AdminSettingsPage = () => {
   const { mutate: profileImgMutate, isPending: profileImgPending } =
     useEditProfileImg();
   const { isLoading: logoutLoading, logout } = useLogOut();
-
-  const { setTheme, theme } = useTheme();
   const t = useTranslations('admin_profile_locales');
 
   const [isHidden, setIsHidden] = useState<boolean>(true);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [theme, setThemeState] = useState<'light' | 'dark' | 'system'>(
+    'system'
+  );
 
-  if (isLoading) {
-    return <AdminSettingsSkeleton />;
-  }
+  const getSystemTheme = useCallback(() => {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  }, []);
 
-  const handleThemeChange = (newTheme: string) => {
-    setTheme(newTheme);
-    document.cookie = `theme=${newTheme}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
-  };
+  useEffect(() => {
+    const cookieTheme = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('theme='))
+      ?.split('=')[1] as 'light' | 'dark' | 'system' | undefined;
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('bg_image', file);
-      imageMutate(formData);
+    const nextTheme = cookieTheme || 'system';
+    setThemeState(nextTheme);
+
+    const appliedTheme = nextTheme === 'system' ? getSystemTheme() : nextTheme;
+
+    if (appliedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
     }
-  };
+  }, []);
 
-  const handleProfileImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('avatar', file);
-      profileImgMutate(formData);
-    }
-  };
+  const handleThemeChange = useCallback(
+    (newTheme: 'light' | 'dark' | 'system') => {
+      const root = document.documentElement;
+      const appliedTheme = newTheme === 'system' ? getSystemTheme() : newTheme;
+      setThemeState(newTheme);
+      root.classList.add('disable-transitions');
+
+      document.cookie = `theme=${newTheme}; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
+
+      if (appliedTheme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          root.classList.remove('disable-transitions');
+        });
+      });
+    },
+    [getSystemTheme]
+  );
+
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('bg_image', file);
+        imageMutate(formData);
+      }
+    },
+    [imageMutate]
+  );
+
+  const handleProfileImgChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('avatar', file);
+        profileImgMutate(formData);
+      }
+    },
+    [profileImgPending, profileImgMutate]
+  );
+
+  if (isLoading) return <AdminSettingsSkeleton />;
 
   return (
     <div className="pb-10 max-w-full overflow-x-hidden px-2 md:px-0">
@@ -83,6 +130,7 @@ const AdminSettingsPage = () => {
             width={400}
             height={300}
             unoptimized={true}
+            priority
             loading="eager"
             className="w-full h-50 object-cover rounded-t-[12px]"
           />
@@ -215,12 +263,12 @@ const AdminSettingsPage = () => {
             <p className="text-[14px] text-(--text-label-color) font-medium mb-2">
               {t('system_theme')}
             </p>
-            <Tabs defaultValue={theme} className="w-full max-w-100">
-              <TabsList className="flex items-center justify-start gap-2 h-10.5! p-1 bg-(--tab-bg) flex-wrap sm:flex-nowrap">
+            <Tabs value={theme} className="w-full md:max-w-100">
+              <TabsList className="flex items-center justify-start gap-2 h-10.5! p-1 bg-(--tab-bg) flex-wrap sm:flex-nowrap w-full md:w-fit">
                 <TabsTrigger
                   onClick={() => handleThemeChange('light')}
                   value="light"
-                  className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-white px-4 hover:text-primary h-9 flex-1 sm:flex-none"
+                  className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-white px-2 md:px-4 hover:text-primary h-9 flex-1 sm:flex-none"
                 >
                   <Sun className="h-4 w-4" />
                   <span className="text-[13px]">{t('light')}</span>
@@ -228,7 +276,7 @@ const AdminSettingsPage = () => {
                 <TabsTrigger
                   onClick={() => handleThemeChange('dark')}
                   value="dark"
-                  className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-white px-4 hover:text-primary h-9 flex-1 sm:flex-none"
+                  className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-white px-2 md:px-4 hover:text-primary h-9 flex-1 sm:flex-none"
                 >
                   <Moon className="h-4 w-4" />
                   <span className="text-[13px]">{t('dark')}</span>
@@ -236,7 +284,7 @@ const AdminSettingsPage = () => {
                 <TabsTrigger
                   onClick={() => handleThemeChange('system')}
                   value="system"
-                  className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-white px-4 hover:text-primary h-9 flex-1 sm:flex-none"
+                  className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-white px-2 md:px-4 hover:text-primary h-9 flex-1 sm:flex-none"
                 >
                   <Monitor className="h-4 w-4" />
                   <span className="text-[13px]">{t('system')}</span>
@@ -248,7 +296,7 @@ const AdminSettingsPage = () => {
           <div className="w-full md:w-auto self-end">
             <Button
               onClick={logout}
-              className="flex items-center justify-center text-white gap-2 h-10.5 text-[14px] w-full sm:w-42 hover:bg-(--text-primary-hover) transition duration-200"
+              className="flex items-center bg-destructive justify-center text-white gap-2 h-10.5 text-[14px] w-full sm:w-42 hover:bg-destructive/70 transition duration-200"
             >
               {logoutLoading ? (
                 <Spinner />

@@ -10,7 +10,6 @@ import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import Providers from '@/providers/query-provider';
 import { ViewTransitions } from 'next-view-transitions';
-import { ThemeProvider } from '@/providers/theme-provider';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -37,23 +36,26 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const theme = cookieStore.get('theme')?.value || 'system';
 
+  const htmlClass =
+    theme === 'dark' ? `dark ${poppins.variable}` : poppins.variable;
+
   return (
-    <html suppressHydrationWarning lang={locale} className={poppins.variable}>
+    <html suppressHydrationWarning lang={locale} className={htmlClass}>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <ThemeProvider
+          {/* <ThemeProvider
             attribute="class"
             defaultTheme={theme}
             disableTransitionOnChange
             storageKey="theme"
             enableSystem
-          >
-            <ViewTransitions>
-              <NextTopLoader showSpinner={false} color="#4fd1c5" />
-              <Toaster position="top-center" />
-              <Providers>{children}</Providers>
-            </ViewTransitions>
-          </ThemeProvider>
+          > */}
+          <ViewTransitions>
+            <NextTopLoader showSpinner={false} color="#4fd1c5" />
+            <Toaster position="top-center" />
+            <Providers>{children}</Providers>
+          </ViewTransitions>
+          {/* </ThemeProvider> */}
         </NextIntlClientProvider>
       </body>
     </html>
