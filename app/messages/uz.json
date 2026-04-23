@@ -89,6 +89,7 @@
     "dark": "To'q",
     "system": "Tizim",
     "LogOut": "Chiqish",
-    "user_name_label": "Foydalanuvchi nomi"
+    "user_name_label": "Foydalanuvchi nomi",
+    "downloading": "Yuklanmoqda..."
   }
 }

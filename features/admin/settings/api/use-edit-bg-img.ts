@@ -9,7 +9,7 @@ export const useEditBgImage = () => {
   const queryClient = useQueryClient();
   return useMutation<useEditBgImageT, Error, FormData>({
     mutationFn: async (res: FormData) => {
-      const { data } = await axios.patch('/api/admin/admin-profile-bg', res);
+      const { data } = await axios.patch('/api/proxy/auth/me', res);
       return data;
     },
     onSuccess: () => {

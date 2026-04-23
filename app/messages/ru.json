@@ -89,6 +89,7 @@
     "dark": "Темная",
     "system": "Системная",
     "LogOut": "Выйти",
-    "user_name_label": "Имя пользователя"
+    "user_name_label": "Имя пользователя",
+    "downloading": "Загрузка..."
   }
 }

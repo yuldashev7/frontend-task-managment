@@ -6,7 +6,7 @@ export const useGetProfile = () => {
   return useQuery<adminProfileT>({
     queryKey: ['admin-profile'],
     queryFn: async () => {
-      const { data } = await axios.get('/api/settings');
+      const { data } = await axios.get('/api/proxy/auth/me');
       return data;
     },
   });

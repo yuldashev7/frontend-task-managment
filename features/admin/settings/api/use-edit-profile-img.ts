@@ -9,7 +9,7 @@ export const useEditProfileImg = () => {
   const queryClient = useQueryClient();
   return useMutation<editProfileImgT, Error, FormData>({
     mutationFn: async (res: FormData) => {
-      const { data } = await axios.patch('/api/admin/admin-profile-img', res);
+      const { data } = await axios.patch('/api/proxy/auth/me', res);
       return data;
     },
     onSuccess: () => {

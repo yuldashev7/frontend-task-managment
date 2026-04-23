@@ -10,11 +10,22 @@ type RouteContext = {
 
 type RefreshResponse = {
   accessToken?: string;
+  access_token?: string;
   refreshToken?: string;
+  refresh_token?: string;
 };
 
-async function refreshAccessToken(
-  refreshToken: string
+function getAccessToken(payload: RefreshResponse) {
+  return payload.accessToken ?? payload.access_token;
+}
+
+function getRefreshToken(payload: RefreshResponse) {
+  return payload.refreshToken ?? payload.refresh_token;
+}
+
+async function tryRefresh(
+  refreshToken: string,
+  field: 'refreshToken' | 'refresh'
 ): Promise<RefreshResponse | null> {
   const res = await fetch(`${BASE_URL}/api/auth/refresh/`, {
     method: 'POST',
@@ -22,7 +33,7 @@ async function refreshAccessToken(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      refreshToken,
+      [field]: refreshToken,
     }),
     cache: 'no-store',
   });
@@ -34,9 +45,28 @@ async function refreshAccessToken(
   return res.json();
 }
 
+async function refreshAccessToken(
+  refreshToken: string
+): Promise<RefreshResponse | null> {
+  const firstAttempt = await tryRefresh(refreshToken, 'refreshToken');
+
+  if (firstAttempt && getAccessToken(firstAttempt)) {
+    return firstAttempt;
+  }
+
+  return tryRefresh(refreshToken, 'refresh');
+}
+
 function buildTargetUrl(request: NextRequest, slug: string[]) {
   const search = request.nextUrl.search;
   return `${BASE_URL}/api/${slug.join('/')}/${search}`;
+}
+
+function copyResponseHeaders(source: Response, target: NextResponse) {
+  const contentType = source.headers.get('content-type');
+  if (contentType) {
+    target.headers.set('Content-Type', contentType);
+  }
 }
 
 async function forwardRequest(
@@ -55,10 +85,12 @@ async function forwardRequest(
     headers.set('Authorization', `Bearer ${accessToken}`);
   }
 
+  headers.set('Accept', request.headers.get('accept') ?? 'application/json');
+
   const body =
     request.method === 'GET' || request.method === 'HEAD'
       ? undefined
-      : await request.text();
+      : new Uint8Array(await request.arrayBuffer());
 
   const response = await fetch(targetUrl, {
     method: request.method,
@@ -82,9 +114,11 @@ async function handler(request: NextRequest, context: RouteContext) {
 
   if (backendRes.status === 401 && refreshToken) {
     const refreshed = await refreshAccessToken(refreshToken);
+    const nextAccessToken = refreshed ? getAccessToken(refreshed) : undefined;
+    const nextRefreshToken = refreshed ? getRefreshToken(refreshed) : undefined;
 
-    if (refreshed?.accessToken) {
-      accessToken = refreshed.accessToken;
+    if (nextAccessToken) {
+      accessToken = nextAccessToken;
 
       const retryHeaders = new Headers(initial.headers);
       retryHeaders.set('Authorization', `Bearer ${accessToken}`);
@@ -101,12 +135,9 @@ async function handler(request: NextRequest, context: RouteContext) {
         status: backendRes.status,
       });
 
-      const responseContentType = backendRes.headers.get('content-type');
-      if (responseContentType) {
-        response.headers.set('Content-Type', responseContentType);
-      }
+      copyResponseHeaders(backendRes, response);
 
-      response.cookies.set('access_token', refreshed.accessToken, {
+      response.cookies.set('access_token', nextAccessToken, {
         httpOnly: true,
         secure: true,
         sameSite: 'lax',
@@ -114,8 +145,8 @@ async function handler(request: NextRequest, context: RouteContext) {
         maxAge: 60 * 60,
       });
 
-      if (refreshed.refreshToken) {
-        response.cookies.set('refresh_token', refreshed.refreshToken, {
+      if (nextRefreshToken) {
+        response.cookies.set('refresh_token', nextRefreshToken, {
           httpOnly: true,
           secure: true,
           sameSite: 'lax',
@@ -133,9 +164,11 @@ async function handler(request: NextRequest, context: RouteContext) {
     status: backendRes.status,
   });
 
-  const responseContentType = backendRes.headers.get('content-type');
-  if (responseContentType) {
-    response.headers.set('Content-Type', responseContentType);
+  copyResponseHeaders(backendRes, response);
+
+  if (backendRes.status === 401) {
+    response.cookies.delete('access_token');
+    response.cookies.delete('refresh_token');
   }
 
   return response;

@@ -6,7 +6,7 @@ export const useEditProfile = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (value: editProfileT) => {
-      const { data } = await axios.patch('/api/admin/admin-profile', value);
+      const { data } = await axios.patch('/api/proxy/auth/me', value);
       return data;
     },
     onSuccess: () => {

@@ -21,13 +21,13 @@ export default function middleware(request: NextRequest) {
   );
   const currentLocale = localeMatch ? localeMatch[1] : routing.defaultLocale;
 
-  const pathWithoutLocale =
+  const localePath =
     pathname.replace(new RegExp(`^/(${routing.locales.join('|')})/?`), '/') ||
     '/';
 
-  const isAdminArea = pathWithoutLocale.startsWith('/admin');
-  const isUserArea = pathWithoutLocale.startsWith('/user');
-  const isLogin = pathWithoutLocale.startsWith('/login');
+  const isAdminArea = localePath.startsWith('/admin');
+  const isUserArea = localePath.startsWith('/user');
+  const isLogin = localePath.startsWith('/login');
 
   if (!token && !refreshToken && (isAdminArea || isUserArea)) {
     return NextResponse.redirect(
