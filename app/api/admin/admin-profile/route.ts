@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { toast } from 'sonner';
 
 export async function PATCH(req: Request) {
   try {
