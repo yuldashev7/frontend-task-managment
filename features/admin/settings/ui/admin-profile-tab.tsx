@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { editProfileT } from '../types/types';
+import { useTranslations } from 'next-intl';
 
 const AdminProfileEdit = dynamic(() => import('./forms/admin-profile-edit'));
 const AdminPasswordEdit = dynamic(() => import('./forms/admin-password-edit'));
@@ -12,6 +13,7 @@ const AdminProfileTab = ({
   initialData?: editProfileT;
   onClose: () => void;
 }) => {
+  const t = useTranslations('sidebar_locales');
   return (
     <div>
       <Tabs defaultValue="profile">
@@ -20,13 +22,13 @@ const AdminProfileTab = ({
             value="profile"
             className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-(--text-btn) px-4 hover:text-primary h-7.5"
           >
-            Profile
+            {t('profile')}
           </TabsTrigger>
           <TabsTrigger
             value="password"
             className="flex items-center gap-2 data-[state=active]:bg-primary py-1.5 data-[state=active]:text-(--text-btn) px-4 hover:text-primary h-7.5"
           >
-            Password
+            {t('password')}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="profile">

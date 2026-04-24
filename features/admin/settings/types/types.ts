@@ -20,3 +20,9 @@ export interface editProfileT {
   first_name: string;
   last_name: string;
 }
+
+export interface changePasswordT {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+}

@@ -60,7 +60,18 @@
     "password_min_6": "Password must be at least 6 characters",
     "confirm_password_required": "Password confirmation is required",
     "passwords_not_match": "Passwords do not match",
-    "update_profile": "Profile updated successfully"
+    "update_profile": "Profile updated successfully",
+
+    "update_password": "Password successfully changed",
+    "error_old_password": "The old password was entered incorrectly",
+    "error_password_": "Incorrect old password!",
+    "error_change_password": "An error occurred while changing the password",
+
+    "required_old_password": "The old password is required",
+    "new_password_max_length": "The new password must be at least 6 characters long",
+    "confirm_password": "Confirm the password",
+    "new_password_not_match": "The new passwords do not match",
+    "enter_new_password": "Enter a new password"
   },
   "sidebar_locales": {
     "dashboard": "Dashboard",
@@ -72,7 +83,9 @@
     "documents": "Documents",
     "feedback": "Feedback",
     "profile": "Profile",
-    "search_input_plc": "Type here..."
+    "search_input_plc": "Type here...",
+
+    "password": "Password"
   },
 
   "admin_profile_locales": {
@@ -89,6 +102,6 @@
     "system": "System",
     "LogOut": "Log out",
     "user_name_label": "User Name",
-    "downloading":"Downloading..."
+    "downloading": "Downloading..."
   }
 }

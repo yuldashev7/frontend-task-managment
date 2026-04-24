@@ -60,7 +60,18 @@
     "password_min_6": "Parol kamida 6 ta belgi bo'lishi kerak",
     "confirm_password_required": "Parolni tasdiqlash shart",
     "passwords_not_match": "Parollar bir-biriga mos kelmadi",
-    "update_profile": "Profil muvaffaqiyatli yangilandi"
+    "update_profile": "Profil muvaffaqiyatli yangilandi",
+
+    "update_password": "Parol muvaffaqiyatli almashtirildi",
+    "error_old_password": "Eski parol noto'g'ri kiritildi",
+    "error_password_": "Eski parol xato!",
+    "error_change_password": "Parol almashtirishda xatolik yuz berdi",
+
+    "required_old_password": "Eski parol kiritilishi shart",
+    "new_password_max_length": "Yangi parol kamida 6 ta belgidan iborat bo'lishi kerak",
+    "confirm_password": "Parolni tasdiqlang",
+    "new_password_not_match": "Yangi parollar bir-biriga mos kelmadi",
+    "enter_new_password": "Yangi parol kiriting"
   },
 
   "sidebar_locales": {
@@ -73,7 +84,9 @@
     "documents": "Hujjatlar",
     "feedback": "Fikr-mulohaza",
     "profile": "Profil",
-    "search_input_plc": "Bu yerga yozing..."
+    "search_input_plc": "Bu yerga yozing...",
+
+    "password": "Parol"
   },
 
   "admin_profile_locales": {

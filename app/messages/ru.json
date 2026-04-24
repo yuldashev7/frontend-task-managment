@@ -60,7 +60,18 @@
     "password_min_6": "Пароль должен содержать минимум 6 символов",
     "confirm_password_required": "Подтверждение пароля обязательно",
     "passwords_not_match": "Пароли не совпадают",
-    "update_profile": "Профиль успешно обновлен"
+    "update_profile": "Профиль успешно обновлен",
+
+    "update_password": "Пароль успешно изменён",
+    "error_old_password": "Старый пароль введён неверно",
+    "error_password_": "Неверный старый пароль!",
+    "error_change_password": "Произошла ошибка при смене пароля",
+
+    "required_old_password": "Необходимо ввести старый пароль",
+    "new_password_max_length": "Новый пароль должен содержать не менее 6 символов",
+    "confirm_password": "Подтвердите пароль",
+    "new_password_not_match": "Новые пароли не совпадают",
+    "enter_new_password":"Введите новый пароль"
   },
 
   "sidebar_locales": {
@@ -73,7 +84,9 @@
     "documents": "Документы",
     "feedback": "Обратная связь",
     "profile": "Профиль",
-    "search_input_plc": "Введите здесь..."
+    "search_input_plc": "Введите здесь...",
+
+        "password": "Пароль"
   },
 
   "admin_profile_locales": {

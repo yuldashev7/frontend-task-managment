@@ -157,7 +157,7 @@ const AdminSettingsPage = () => {
                 height={100}
                 unoptimized={true}
                 loading="eager"
-                className="w-25 h-25 object-cover rounded-full border-4 border-(--card-bg)"
+                className="w-25 h-25 object-cover rounded-full border-3 border-(--card-bg)"
               />
               <label className="bg-primary p-1.5 rounded-full border-2 border-(--text-color) absolute -bottom-3 right-0 cursor-pointer hover:bg-(--text-primary-hover) transition duration-200">
                 <Input
