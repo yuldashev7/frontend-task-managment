@@ -12,3 +12,14 @@ export interface getUsersT {
   profession: string;
   gender: string;
 }
+
+export interface postUserT {
+  username: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  profession?: string;
+  phone_number?: string;
+  avatar?: string | undefined;
+  password: string;
+}

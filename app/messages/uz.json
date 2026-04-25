@@ -104,5 +104,24 @@
     "LogOut": "Chiqish",
     "user_name_label": "Foydalanuvchi nomi",
     "downloading": "Yuklanmoqda..."
+  },
+
+  "admin_team_locale": {
+    "add_user": "Foydalanuvchi qo'shish",
+    "full_name": "To'liq ism",
+    "phone_number": "Telefon raqami",
+    "email": "Email",
+    "profession": "Kasbi",
+    "is_active": "Faol",
+    "in_active": "Nofaol",
+    "add_new_user": "Yangi foydalanuvchi qo'shish",
+    "user_name_plc": "Foydalanuvchi nomini kiriting",
+    "first_name_plc": "Ismni kiriting",
+    "last_name_plc": "Familiyani kiriting",
+    "profession_plc": "UI/UX Dizayner",
+    "delete": "O'chirish",
+    "action": "Amal",
+    "active_users": "Faol foydalanuvchilar",
+    "in_active_users": "Nofaol foydalanuvchilar"
   }
 }

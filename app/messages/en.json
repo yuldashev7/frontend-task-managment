@@ -103,5 +103,25 @@
     "LogOut": "Log out",
     "user_name_label": "User Name",
     "downloading": "Downloading..."
+  },
+
+  "admin_team_locale": {
+    "add_user": "Add User",
+    "full_name": "Full Name",
+    "phone_number": "Phone number",
+    "email": "Email",
+    "profession": "Profession",
+    "is_active": "Is Active",
+    "in_active": "In Active",
+    "add_new_user": "Add New User",
+
+    "user_name_plc": "Enter user name",
+    "first_name_plc": "Enter user first name",
+    "last_name_plc": "Enter user last name",
+    "profession_plc": "UI/UX Designer",
+    "delete": "Delete",
+    "action": "Action",
+    "active_users": "Active Users",
+    "in_active_users": "In Active users"
   }
 }

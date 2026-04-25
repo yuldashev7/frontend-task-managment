@@ -22,21 +22,19 @@ const AdminProfileEditDialog = ({
 }: dialogT & { initialData?: editProfileT }) => {
   const t = useTranslations('admin_profile_locales');
   return (
-    <div>
-      <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
-        <DialogTrigger asChild />
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('edit_profile')}</DialogTitle>
-            <DialogDescription />
-          </DialogHeader>
-          <div>
-            <AdminProfileTab initialData={initialData} onClose={onClose} />
-          </div>
-          <DialogFooter className="border-none bg-transparent" />
-        </DialogContent>
-      </Dialog>
-    </div>
+    <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
+      <DialogTrigger asChild />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t('edit_profile')}</DialogTitle>
+          <DialogDescription />
+        </DialogHeader>
+        <div>
+          <AdminProfileTab initialData={initialData} onClose={onClose} />
+        </div>
+        <DialogFooter className="border-none bg-transparent" />
+      </DialogContent>
+    </Dialog>
   );
 };
 export default AdminProfileEditDialog;

@@ -71,7 +71,7 @@
     "new_password_max_length": "Новый пароль должен содержать не менее 6 символов",
     "confirm_password": "Подтвердите пароль",
     "new_password_not_match": "Новые пароли не совпадают",
-    "enter_new_password":"Введите новый пароль"
+    "enter_new_password": "Введите новый пароль"
   },
 
   "sidebar_locales": {
@@ -86,7 +86,7 @@
     "profile": "Профиль",
     "search_input_plc": "Введите здесь...",
 
-        "password": "Пароль"
+    "password": "Пароль"
   },
 
   "admin_profile_locales": {
@@ -104,5 +104,24 @@
     "LogOut": "Выйти",
     "user_name_label": "Имя пользователя",
     "downloading": "Загрузка..."
+  },
+
+  "admin_team_locale": {
+    "add_user": "Добавить пользователя",
+    "full_name": "Полное имя",
+    "phone_number": "Номер телефона",
+    "email": "Электронная почта",
+    "profession": "Профессия",
+    "is_active": "Активен",
+    "in_active": "Неактивен",
+    "add_new_user": "Добавить нового пользователя",
+    "user_name_plc": "Введите имя пользователя",
+    "first_name_plc": "Введите имя",
+    "last_name_plc": "Введите фамилию",
+    "profession_plc": "UI/UX Дизайнер",
+    "delete": "Удалить",
+    "action": "Действие",
+    "active_users": "Активные пользователи",
+    "in_active_users": "Неактивные пользователи"
   }
 }
